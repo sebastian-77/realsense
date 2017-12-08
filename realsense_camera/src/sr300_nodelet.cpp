@@ -119,7 +119,9 @@ namespace realsense_camera
 
     // set the depth enable
     BaseNodelet::setDepthEnable(config.enable_depth);
-
+    
+    ROS_INFO_STREAM(nodelet_name_ << " - sr300_presets : " << config.sr300_presets);
+    
     // Set common options
     rs_set_device_option(rs_device_, RS_OPTION_COLOR_BACKLIGHT_COMPENSATION, config.color_backlight_compensation, 0);
     rs_set_device_option(rs_device_, RS_OPTION_COLOR_BRIGHTNESS, config.color_brightness, 0);
@@ -176,6 +178,21 @@ namespace realsense_camera
         config.sr300_auto_range_upper_threshold, 0);
     rs_set_device_option(rs_device_, RS_OPTION_SR300_AUTO_RANGE_LOWER_THRESHOLD,
         config.sr300_auto_range_lower_threshold, 0);
+        
+    if (config.sr300_presets != -1)
+    {
+       if (config.sr300_presets == 0) rs_apply_ivcam_preset(rs_device_,RS_IVCAM_PRESET_SHORT_RANGE);
+       if (config.sr300_presets == 1) rs_apply_ivcam_preset(rs_device_,RS_IVCAM_PRESET_LONG_RANGE);
+       if (config.sr300_presets == 2) rs_apply_ivcam_preset(rs_device_,RS_IVCAM_PRESET_BACKGROUND_SEGMENTATION);
+       if (config.sr300_presets == 3) rs_apply_ivcam_preset(rs_device_,RS_IVCAM_PRESET_GESTURE_RECOGNITION);
+       if (config.sr300_presets == 4) rs_apply_ivcam_preset(rs_device_,RS_IVCAM_PRESET_OBJECT_SCANNING);
+       if (config.sr300_presets == 5) rs_apply_ivcam_preset(rs_device_,RS_IVCAM_PRESET_FACE_ANALYTICS);
+       if (config.sr300_presets == 6) rs_apply_ivcam_preset(rs_device_,RS_IVCAM_PRESET_FACE_LOGIN);
+       if (config.sr300_presets == 7) rs_apply_ivcam_preset(rs_device_,RS_IVCAM_PRESET_GR_CURSOR);
+       if (config.sr300_presets == 8) rs_apply_ivcam_preset(rs_device_,RS_IVCAM_PRESET_DEFAULT);
+       if (config.sr300_presets == 9) rs_apply_ivcam_preset(rs_device_,RS_IVCAM_PRESET_MID_RANGE);
+       if (config.sr300_presets == 10) rs_apply_ivcam_preset(rs_device_,RS_IVCAM_PRESET_IR_ONLY);
+    }
 /*
     rs_set_device_option(rs_device_, RS_OPTION_SR300_WAKEUP_DEV_PHASE1_PERIOD, config.sr300_wakeup_dev_phase1_period, 0);
     rs_set_device_option(rs_device_, RS_OPTION_SR300_WAKEUP_DEV_PHASE1_FPS, config.sr300_wakeup_dev_phase1_fps, 0);
